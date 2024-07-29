@@ -1,0 +1,67 @@
+2024-07-29 22:57:43,715:INFO:Volume set to 0.5
+2024-07-29 22:57:59,341:INFO:Track added: D:/GitHub/Work/Media-Player-Using-Python/iphone_14.mp3
+2024-07-29 22:58:04,464:INFO:Track loaded: D:/GitHub/Work/Media-Player-Using-Python/iphone_14.mp3
+2024-07-29 22:58:04,465:INFO:Playback started
+2024-07-29 22:58:04,465:ERROR:Error seeking audio: invalid literal for int() with base 10: '0.0'
+2024-07-29 22:58:06,830:ERROR:Error seeking audio: invalid literal for int() with base 10: '2.369'
+2024-07-29 22:58:08,866:ERROR:Error seeking audio: invalid literal for int() with base 10: '4.405'
+2024-07-29 22:58:11,401:ERROR:Error seeking audio: invalid literal for int() with base 10: '6.932'
+2024-07-29 22:58:13,507:ERROR:Error seeking audio: invalid literal for int() with base 10: '9.04'
+2024-07-29 22:58:15,617:INFO:Playback paused
+2024-07-29 22:58:17,537:INFO:Volume set to 0.49
+2024-07-29 22:58:17,555:INFO:Volume set to 0.48
+2024-07-29 22:58:17,581:INFO:Volume set to 0.47
+2024-07-29 22:58:17,593:INFO:Volume set to 0.46
+2024-07-29 22:58:17,609:INFO:Volume set to 0.45
+2024-07-29 22:58:17,632:INFO:Volume set to 0.44
+2024-07-29 22:58:17,637:INFO:Volume set to 0.43
+2024-07-29 22:58:17,657:INFO:Volume set to 0.42
+2024-07-29 22:58:17,677:INFO:Volume set to 0.41
+2024-07-29 22:58:17,694:INFO:Volume set to 0.4
+2024-07-29 22:58:17,767:INFO:Volume set to 0.39
+2024-07-29 22:58:17,816:INFO:Volume set to 0.38
+2024-07-29 22:58:17,867:INFO:Volume set to 0.37
+2024-07-29 22:58:17,872:INFO:Volume set to 0.36
+2024-07-29 22:58:17,911:INFO:Volume set to 0.35
+2024-07-29 22:58:17,989:INFO:Volume set to 0.34
+2024-07-29 22:58:18,043:INFO:Volume set to 0.33
+2024-07-29 22:58:18,524:INFO:Volume set to 0.34
+2024-07-29 22:58:18,524:INFO:Volume set to 0.35
+2024-07-29 22:58:18,536:INFO:Volume set to 0.36
+2024-07-29 22:58:18,543:INFO:Volume set to 0.37
+2024-07-29 22:58:18,549:INFO:Volume set to 0.38
+2024-07-29 22:58:18,556:INFO:Volume set to 0.39
+2024-07-29 22:58:18,563:INFO:Volume set to 0.4
+2024-07-29 22:58:18,568:INFO:Volume set to 0.41
+2024-07-29 22:58:18,570:INFO:Volume set to 0.42
+2024-07-29 22:58:18,574:INFO:Volume set to 0.43
+2024-07-29 22:58:18,579:INFO:Volume set to 0.45
+2024-07-29 22:58:18,585:INFO:Volume set to 0.46
+2024-07-29 22:58:18,589:INFO:Volume set to 0.48
+2024-07-29 22:58:18,594:INFO:Volume set to 0.49
+2024-07-29 22:58:18,599:INFO:Volume set to 0.5
+2024-07-29 22:58:18,601:INFO:Volume set to 0.51
+2024-07-29 22:58:18,606:INFO:Volume set to 0.52
+2024-07-29 22:58:18,612:INFO:Volume set to 0.53
+2024-07-29 22:58:18,614:INFO:Volume set to 0.54
+2024-07-29 22:58:18,620:INFO:Volume set to 0.55
+2024-07-29 22:58:18,624:INFO:Volume set to 0.56
+2024-07-29 22:58:18,626:INFO:Volume set to 0.57
+2024-07-29 22:58:18,632:INFO:Volume set to 0.58
+2024-07-29 22:58:18,639:INFO:Volume set to 0.59
+2024-07-29 22:58:18,640:INFO:Volume set to 0.6
+2024-07-29 22:58:18,649:INFO:Volume set to 0.61
+2024-07-29 22:58:18,654:INFO:Volume set to 0.62
+2024-07-29 22:58:18,658:INFO:Volume set to 0.63
+2024-07-29 22:58:18,670:INFO:Volume set to 0.64
+2024-07-29 22:58:18,688:INFO:Volume set to 0.65
+2024-07-29 22:58:18,724:INFO:Volume set to 0.66
+2024-07-29 22:58:30,148:INFO:Playback resumed
+2024-07-29 22:58:36,639:INFO:Track removed: D:/GitHub/Work/Media-Player-Using-Python/iphone_14.mp3
+2024-07-29 22:58:37,371:INFO:Playback resumed
+2024-07-29 22:58:39,705:INFO:Playback stopped
+2024-07-29 22:58:46,875:INFO:Playback started
+2024-07-29 22:58:46,875:ERROR:Error seeking audio: invalid literal for int() with base 10: '0.0'
+2024-07-29 22:58:49,040:ERROR:Error seeking audio: invalid literal for int() with base 10: '2.182'
+2024-07-29 22:58:51,066:ERROR:Error seeking audio: invalid literal for int() with base 10: '4.197'
+2024-07-29 22:58:53,208:ERROR:Error seeking audio: invalid literal for int() with base 10: '6.348'

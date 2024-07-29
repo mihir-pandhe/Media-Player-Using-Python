@@ -1,162 +1,96 @@
 import os
-import json
+import tkinter as tk
+from tkinter import filedialog, messagebox
 from pygame import mixer
 
-STATE_FILE = "player_state.json"
+class MediaPlayer:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Media Player")
+        self.root.geometry("800x400")
 
+        mixer.init()
+        self.track = None
+        self.is_paused = False
 
-def initialize_mixer():
-    mixer.init()
+        self.create_widgets()
 
+    def create_widgets(self):
+        self.play_button = tk.Button(self.root, text="Play", command=self.play_audio)
+        self.play_button.pack(pady=10)
 
-def load_audio(file_path):
-    if os.path.isfile(file_path):
-        mixer.music.load(file_path)
-        sound = mixer.Sound(file_path)
-        return sound
-    else:
-        print("File not found")
-        return None
+        self.pause_button = tk.Button(self.root, text="Pause", command=self.pause_audio)
+        self.pause_button.pack(pady=10)
 
+        self.stop_button = tk.Button(self.root, text="Stop", command=self.stop_audio)
+        self.stop_button.pack(pady=10)
 
-def play_audio():
-    mixer.music.play()
-    print("Playback started")
+        self.volume_label = tk.Label(self.root, text="Volume")
+        self.volume_label.pack()
 
+        self.volume_slider = tk.Scale(
+            self.root, from_=0, to=100, orient=tk.HORIZONTAL, command=self.set_volume
+        )
+        self.volume_slider.set(50)
+        self.volume_slider.pack(pady=10)
 
-def pause_audio():
-    mixer.music.pause()
-    print("Playback paused")
+        self.track_label = tk.Label(self.root, text="No track loaded")
+        self.track_label.pack(pady=10)
 
+        self.menu = tk.Menu(self.root)
+        self.root.config(menu=self.menu)
 
-def resume_audio():
-    mixer.music.unpause()
-    print("Playback resumed")
+        self.file_menu = tk.Menu(self.menu, tearoff=0)
+        self.menu.add_cascade(label="File", menu=self.file_menu)
+        self.file_menu.add_command(label="Load", command=self.load_audio)
+        self.file_menu.add_command(label="Exit", command=self.root.quit)
 
+    def load_audio(self):
+        file_path = filedialog.askopenfilename(
+            filetypes=[("Audio Files", "*.mp3;*.wav")]
+        )
+        if file_path:
+            self.track = file_path
+            mixer.music.load(self.track)
+            self.track_label.config(text=os.path.basename(self.track))
+            messagebox.showinfo("Loaded", f"Loaded {os.path.basename(self.track)}")
 
-def stop_audio():
-    mixer.music.stop()
-    print("Playback stopped")
+    def play_audio(self):
+        if self.track:
+            mixer.music.play()
+            self.is_paused = False
+            messagebox.showinfo("Playback", "Playback started")
+        else:
+            messagebox.showwarning("No Track", "No track loaded")
 
+    def pause_audio(self):
+        if self.track and not self.is_paused:
+            mixer.music.pause()
+            self.is_paused = True
+            messagebox.showinfo("Playback", "Playback paused")
+        elif self.is_paused:
+            mixer.music.unpause()
+            self.is_paused = False
+            messagebox.showinfo("Playback", "Playback resumed")
+        else:
+            messagebox.showwarning("No Track", "No track loaded")
 
-def set_volume(volume):
-    if 0.0 <= volume <= 1.0:
+    def stop_audio(self):
+        if self.track:
+            mixer.music.stop()
+            messagebox.showinfo("Playback", "Playback stopped")
+        else:
+            messagebox.showwarning("No Track", "No track loaded")
+
+    def set_volume(self, val):
+        volume = int(val) / 100
         mixer.music.set_volume(volume)
-        print(f"Volume set to {volume}")
-    else:
-        print("Volume must be between 0.0 and 1.0")
-
-
-def get_volume():
-    return mixer.music.get_volume()
-
-
-def display_track_info(sound):
-    if mixer.music.get_busy():
-        position = mixer.music.get_pos() / 1000
-        length = sound.get_length()
-        print(f"Current Position: {position:.2f} s / Total Length: {length:.2f} s")
-    else:
-        print("No track is playing")
-
-
-def save_state(file_path, track, volume, playlist):
-    state = {"track": track, "volume": volume, "playlist": playlist}
-    with open(file_path, "w") as f:
-        json.dump(state, f)
-    print("State saved")
-
-
-def load_state(file_path):
-    if os.path.isfile(file_path):
-        with open(file_path, "r") as f:
-            state = json.load(f)
-        print("State loaded")
-        return state
-    else:
-        print("No saved state found")
-        return None
 
 
 def main():
-    initialize_mixer()
-
-    state = load_state(STATE_FILE)
-    sound = None
-    file_path = None
-    playlist = []
-
-    if state:
-        file_path = state.get("track")
-        volume = state.get("volume", 0.5)
-        playlist = state.get("playlist", [])
-        if file_path and os.path.isfile(file_path):
-            sound = load_audio(file_path)
-            if sound:
-                set_volume(volume)
-        else:
-            file_path = input("Enter the path to the audio file: ")
-            sound = load_audio(file_path)
-            if sound:
-                set_volume(volume)
-                playlist.append(file_path)
-    else:
-        file_path = input("Enter the path to the audio file: ")
-        sound = load_audio(file_path)
-        if sound:
-            volume = 0.5
-            set_volume(volume)
-            playlist.append(file_path)
-
-    while True:
-        command = (
-            input(
-                "Enter command (play, pause, resume, stop, load, playlist, volume, info, save, exit): "
-            )
-            .strip()
-            .lower()
-        )
-
-        if command == "play":
-            if sound:
-                play_audio()
-            else:
-                print("No track loaded. Use the 'load' command to load an audio file.")
-        elif command == "pause":
-            pause_audio()
-        elif command == "resume":
-            resume_audio()
-        elif command == "stop":
-            stop_audio()
-        elif command == "load":
-            file_path = input("Enter the path to the audio file: ")
-            sound = load_audio(file_path)
-            if sound:
-                set_volume(volume)
-                playlist.append(file_path)
-        elif command == "playlist":
-            print("Current Playlist:")
-            for i, track in enumerate(playlist, 1):
-                print(f"{i}. {track}")
-        elif command == "volume":
-            try:
-                volume = float(input("Enter volume (0.0 to 1.0): "))
-                set_volume(volume)
-            except ValueError:
-                print("Invalid volume value")
-        elif command == "info":
-            if sound:
-                display_track_info(sound)
-            else:
-                print("No track loaded")
-        elif command == "save":
-            save_state(STATE_FILE, file_path, get_volume(), playlist)
-        elif command == "exit":
-            stop_audio()
-            save_state(STATE_FILE, file_path, get_volume(), playlist)
-            break
-        else:
-            print("Invalid command")
+    root = tk.Tk()
+    app = MediaPlayer(root)
+    root.mainloop()
 
 
 if __name__ == "__main__":

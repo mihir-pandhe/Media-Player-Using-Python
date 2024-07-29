@@ -1,6 +1,8 @@
 import os
-import time
+import json
 from pygame import mixer
+
+STATE_FILE = "player_state.json"
 
 
 def initialize_mixer():
@@ -58,29 +60,84 @@ def display_track_info(sound):
         print("No track is playing")
 
 
+def save_state(file_path, track, volume, playlist):
+    state = {"track": track, "volume": volume, "playlist": playlist}
+    with open(file_path, "w") as f:
+        json.dump(state, f)
+    print("State saved")
+
+
+def load_state(file_path):
+    if os.path.isfile(file_path):
+        with open(file_path, "r") as f:
+            state = json.load(f)
+        print("State loaded")
+        return state
+    else:
+        print("No saved state found")
+        return None
+
+
 def main():
     initialize_mixer()
-    file_path = input("Enter the path to the audio file: ")
 
-    sound = load_audio(file_path)
-    if not sound:
-        return
+    state = load_state(STATE_FILE)
+    sound = None
+    file_path = None
+    playlist = []
+
+    if state:
+        file_path = state.get("track")
+        volume = state.get("volume", 0.5)
+        playlist = state.get("playlist", [])
+        if file_path and os.path.isfile(file_path):
+            sound = load_audio(file_path)
+            if sound:
+                set_volume(volume)
+        else:
+            file_path = input("Enter the path to the audio file: ")
+            sound = load_audio(file_path)
+            if sound:
+                set_volume(volume)
+                playlist.append(file_path)
+    else:
+        file_path = input("Enter the path to the audio file: ")
+        sound = load_audio(file_path)
+        if sound:
+            volume = 0.5
+            set_volume(volume)
+            playlist.append(file_path)
 
     while True:
         command = (
-            input("Enter command (play, pause, resume, stop, volume, info, exit): ")
+            input(
+                "Enter command (play, pause, resume, stop, load, playlist, volume, info, save, exit): "
+            )
             .strip()
             .lower()
         )
 
         if command == "play":
-            play_audio()
+            if sound:
+                play_audio()
+            else:
+                print("No track loaded. Use the 'load' command to load an audio file.")
         elif command == "pause":
             pause_audio()
         elif command == "resume":
             resume_audio()
         elif command == "stop":
             stop_audio()
+        elif command == "load":
+            file_path = input("Enter the path to the audio file: ")
+            sound = load_audio(file_path)
+            if sound:
+                set_volume(volume)
+                playlist.append(file_path)
+        elif command == "playlist":
+            print("Current Playlist:")
+            for i, track in enumerate(playlist, 1):
+                print(f"{i}. {track}")
         elif command == "volume":
             try:
                 volume = float(input("Enter volume (0.0 to 1.0): "))
@@ -88,9 +145,15 @@ def main():
             except ValueError:
                 print("Invalid volume value")
         elif command == "info":
-            display_track_info(sound)
+            if sound:
+                display_track_info(sound)
+            else:
+                print("No track loaded")
+        elif command == "save":
+            save_state(STATE_FILE, file_path, get_volume(), playlist)
         elif command == "exit":
             stop_audio()
+            save_state(STATE_FILE, file_path, get_volume(), playlist)
             break
         else:
             print("Invalid command")
